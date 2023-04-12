@@ -1,7 +1,11 @@
 const express = require('express');
 const {body, validationResult} = require('express-validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../models/User');
+
+const JWT_SECRET = "webTokenSignature";
 
 // create a user
 router.post('/user', [
@@ -15,18 +19,31 @@ router.post('/user', [
         return response.status(400).json({errors: errors.array()});
     }
 
-    // check whether the user with this email exist already
     try {
+        // check whether the user with this email exist already
         let user = await User.findOne({email: request.body.email});
         if (user)
             return response.status(400).json({errors: "Invalid User Credential!"});
 
+        const salt = await bcrypt.genSalt(10);
+        const securedPassword = await bcrypt.hash(request.body.password, salt);
+
+        // create user
         user = await User.create({
             name: request.body.name,
             email: request.body.email,
-            password: request.body.password,
+            password: securedPassword,
         });
-        response.send(user);
+
+        const data = {
+            user: {
+                id: user.id
+            }
+        }
+
+        const authToken = jwt.sign(data, JWT_SECRET);
+
+        response.json({authToken});
     } catch (e) {
         console.error(e.message);
         response.status(500).json({errors: "Something unexpected happened!"});
