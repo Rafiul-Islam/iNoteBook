@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../models/User');
+const fetchUser = require("../middleware/fetchUser")
 
 const JWT_SECRET = "webTokenSignature";
 
@@ -85,6 +86,18 @@ router.post('/login', [
     } catch (error) {
         console.error(error.message);
         response.status(500).json({errors: "Something unexpected happened!"});
+    }
+});
+
+// Get login user details
+router.get('/user', fetchUser, async (request, response) => {
+    try {
+        let userId = request.user.id;
+        const user = await User.findById(userId).select("-password");
+        response.send(user);
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({"error": "Something unexpected happened!"});
     }
 });
 
