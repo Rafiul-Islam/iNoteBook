@@ -1,10 +1,15 @@
 import React from 'react';
+import Router from "./routers";
+import Navbar from "./components/navbar";
 
 const App = () => {
     return (
-        <div>
-            <h1>This is iNotebook</h1>
-        </div>
+        <>
+            <Navbar/>
+            <div className='container mt-5'>
+                <Router/>
+            </div>
+        </>
     );
 };
 
