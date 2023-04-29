@@ -1,32 +1,73 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
+import {NoteContext} from "../context/notes/noteContext";
 
 const NoteAddForm = () => {
+    const noteObj = {
+        title: "",
+        description: "",
+        tag: ""
+    };
+    const noteContext = useContext(NoteContext);
+    const {addNote} = noteContext;
+    const [note, setNote] = useState(noteObj);
+
+    const handleChange = (e) => {
+        setNote({
+            ...note,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        addNote(note);
+        setNote(noteObj);
+    }
+
     return (
-        <div>
+        <>
             <h2>Add a Note Here</h2>
-            <form className='mt-4'>
+            <form onSubmit={handleSubmit} className='mt-4'>
                 <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1">Email Address</label>
+                    <label htmlFor="exampleInputEmail1">Title</label>
                     <input
-                        type="email"
+                        type="text"
                         className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         placeholder=""
+                        name='title'
+                        value={note.title}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input
-                        type="password"
+                    <label htmlFor="exampleInputPassword1">Description</label>
+                    <textarea
+                        type="text"
                         className="form-control"
                         id="exampleInputPassword1"
                         placeholder=""
+                        name='description'
+                        value={note.description}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="exampleInputPassword1">Tag</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="exampleInputPassword1"
+                        placeholder=""
+                        name='tag'
+                        value={note.tag}
+                        onChange={handleChange}
                     />
                 </div>
                 <button type="submit" className="btn btn-primary py-2 px-4">Submit</button>
             </form>
-        </div>
+        </>
     );
 };
 
