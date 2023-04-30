@@ -20,26 +20,19 @@ const getMethod = async (endPoint) => {
     }
 }
 
+const postMethod = async (endPoint, obj) => {
+    try {
+        const {data} = await axios.post(`${API_BASE_URL}/${endPoint}`, obj, {headers});
+        return data;
+    } catch (error) {
+        showErrorToast(error.response.message);
+        return null;
+    }
+}
+
 const deleteMethod = async (endPoint, id) => {
     try {
-        swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await axios.delete(`${API_BASE_URL}/${endPoint}/${id}`, {headers});
-                swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted!',
-                    'success'
-                )
-            }
-        })
+        await axios.delete(`${API_BASE_URL}/${endPoint}/${id}`, {headers});
     } catch (error) {
         showErrorToast(error.response.message);
     }
@@ -47,5 +40,6 @@ const deleteMethod = async (endPoint, id) => {
 
 export default {
     get: getMethod,
+    post: postMethod,
     delete: deleteMethod
 };
