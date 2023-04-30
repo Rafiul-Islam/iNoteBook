@@ -38,9 +38,16 @@ export const NoteProvider = ({children}) => {
         setNotes(updatedNotes);
     }
 
-    const deleteNote = (noteId) => {
+    const deleteNote = async (noteId) => {
+        const allNotes = [...notes];
         const filteredNotes = notes.filter(note => note._id !== noteId);
         setNotes(filteredNotes);
+        try {
+            await http.delete("notes", noteId);
+        } catch (e) {
+            console.error(e.message)
+            setNotes(allNotes);
+        }
     }
 
     return (

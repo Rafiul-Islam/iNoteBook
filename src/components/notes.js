@@ -6,12 +6,8 @@ const Notes = () => {
     const noteContext = useContext(NoteContext);
     const {notes, getAllNotes, addNote} = noteContext;
 
-    const getNotes = async () => {
-        const allNotes = await getAllNotes();
-    }
-
     useEffect(() => {
-        getNotes();
+        getAllNotes();
     }, []);
 
     return (
