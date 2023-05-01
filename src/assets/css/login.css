@@ -1,0 +1,32 @@
+.navbar {
+    display: none !important;
+}
+
+.container.mt-5 {
+    margin-top: 0 !important;
+}
+
+.login-page {
+    align-items: center;
+    display: flex;
+    font-family: Roboto, SolaimanLipi, sans-serif;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.login-page .form-container {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 450px;
+    padding: 40px 20px;
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    .login-page .form-container {
+        border: 1px solid #dadce0;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+        padding: 48px 38px;
+    }
+}
