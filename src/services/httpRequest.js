@@ -1,5 +1,4 @@
-import axios from "axios";
-import swal from 'sweetalert2';
+import httpService from "../services/httpServices";
 import {showErrorToast} from "./toastServices";
 import API_BASE_URL from '../config';
 
@@ -12,7 +11,7 @@ const headers = {
 
 const getMethod = async (endPoint) => {
     try {
-        const {data} = await axios.get(`${API_BASE_URL}/${endPoint}`, {headers});
+        const {data} = await httpService.get(`${API_BASE_URL}/${endPoint}`, {headers});
         return data;
     } catch (error) {
         showErrorToast(error.response.message);
@@ -22,7 +21,7 @@ const getMethod = async (endPoint) => {
 
 const postMethod = async (endPoint, obj) => {
     try {
-        const {data} = await axios.post(`${API_BASE_URL}/${endPoint}`, obj, {headers});
+        const {data} = await httpService.post(`${API_BASE_URL}/${endPoint}`, obj, {headers});
         return data;
     } catch (error) {
         showErrorToast(error.response.message);
@@ -30,9 +29,19 @@ const postMethod = async (endPoint, obj) => {
     }
 }
 
+const putMethod = async (endPoint, obj) => {
+    try {
+        const {data} = await httpService.put(`${API_BASE_URL}/${endPoint}`, obj, {headers});
+        return data;
+    } catch (error) {
+        showErrorToast("Note Update Failed!");
+        return null;
+    }
+}
+
 const deleteMethod = async (endPoint, id) => {
     try {
-        await axios.delete(`${API_BASE_URL}/${endPoint}/${id}`, {headers});
+        await httpService.delete(`${API_BASE_URL}/${endPoint}/${id}`, {headers});
     } catch (error) {
         showErrorToast(error.response.message);
     }
@@ -41,5 +50,6 @@ const deleteMethod = async (endPoint, id) => {
 export default {
     get: getMethod,
     post: postMethod,
+    put: putMethod,
     delete: deleteMethod
 };

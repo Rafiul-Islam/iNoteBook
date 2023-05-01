@@ -2,8 +2,6 @@ import React, {createContext, useState} from 'react';
 import http from "../../services/httpRequest";
 import {showSuccessToast} from "../../services/toastServices";
 import swal from "sweetalert2";
-import axios from "axios";
-import API_BASE_URL from "../../config";
 
 export const NoteContext = createContext();
 
@@ -20,7 +18,6 @@ export const NoteProvider = ({children}) => {
         const note = {title, description, tag}
         try {
             const response = await http.post("notes", note);
-            console.log(response);
             const allNotes = [response, ...notes];
             setNotes(allNotes);
             showSuccessToast("Note Added Successfully!");
@@ -29,17 +26,26 @@ export const NoteProvider = ({children}) => {
         }
     }
 
-    const editNote = (noteId, noteObj) => {
-        const {title, description, tag} = noteObj;
-        const updatedNotes = notes.map(note => {
-            if (note._id === noteId) {
-                note.title = title;
-                note.description = description;
-                note.tag = tag;
+    const updateNote = async (noteObj) => {
+        const {_id, title, description, tag} = noteObj;
+        const note = {title, description, tag}
+        try {
+            const response = await http.put(`notes/${_id}`, note);
+            if (response) {
+                const updatedNotes = notes.map(note => {
+                    if (note._id === _id) {
+                        note.title = title;
+                        note.description = description;
+                        note.tag = tag;
+                    }
+                    return note;
+                });
+                setNotes(updatedNotes);
+                showSuccessToast("Note Update Successfully!");
             }
-            return note;
-        });
-        setNotes(updatedNotes);
+        } catch (e) {
+            console.error(e.message)
+        }
     }
 
     const deleteNote = async (noteId) => {
@@ -72,7 +78,7 @@ export const NoteProvider = ({children}) => {
     }
 
     return (
-        <NoteContext.Provider value={{notes, setNotes, getAllNotes, addNote, editNote, deleteNote}}>
+        <NoteContext.Provider value={{notes, setNotes, getAllNotes, addNote, updateNote, deleteNote}}>
             {children}
         </NoteContext.Provider>
     );

@@ -3,16 +3,8 @@ import ConfirmDialog from "./confirmDialog";
 import dateFormatter from "../utils/dateFormatter";
 import {NoteContext} from "../context/notes/noteContext";
 
-const Note = ({note}) => {
+const Note = ({note, onUpdate, onDelete}) => {
     const {_id, title, description, tag, date} = note;
-
-    const noteContext = useContext(NoteContext);
-    const {deleteNote} = noteContext;
-
-    const handleDelete = (noteId) => {
-        deleteNote(noteId);
-    }
-
     return (
         <div className="card note-card">
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -28,12 +20,13 @@ const Note = ({note}) => {
                     <i
                         role='button'
                         className='fa fa-pencil me-3 bg-primary p-2 rounded-circle text-white'
+                        onClick={() => onUpdate(note)}
                     />
 
                     <i
                         role='button'
                         className='fa fa-trash bg-danger p-2 rounded-circle text-white'
-                        onClick={() => handleDelete(_id)}
+                        onClick={() => onDelete(_id)}
                     />
                 </div>
             </div>
