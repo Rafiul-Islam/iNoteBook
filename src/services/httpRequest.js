@@ -50,7 +50,7 @@ const deleteMethod = async (endPoint, id) => {
     }
 }
 
-const loginMethod = async (endPoint, credential) => {
+const loginAndRegisterMethod = async (endPoint, credential) => {
     try {
         const {data} = await httpService.post(`${API_BASE_URL}/${endPoint}`, credential);
         return data;
@@ -66,5 +66,6 @@ export default {
     post: postMethod,
     put: putMethod,
     delete: deleteMethod,
-    login: loginMethod
+    login: loginAndRegisterMethod,
+    register: loginAndRegisterMethod,
 };
