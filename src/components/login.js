@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import notebookImage from "../assets/images/notebook.png";
 import http from "../services/httpRequest";
 import '../assets/css/login.css';
+import {UserLoginStatusContext} from "../context/userLoginStatusContext";
 
 const Login = () => {
     const [credential, setCredential] = useState(null);
     const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useContext(UserLoginStatusContext);
 
     const handleChange = (e) => {
         const input = e.target;
@@ -21,7 +23,8 @@ const Login = () => {
         const response = await http.login("auth/login", credential);
         if (response) {
             const {authToken} = response;
-            localStorage.setItem("authToken", authToken)
+            localStorage.setItem("authToken", authToken);
+            setIsLogin(true);
             setCredential(null);
             navigate("/")
         }

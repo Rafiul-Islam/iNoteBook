@@ -1,9 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
+import {useNavigate} from "react-router-dom";
+import {UserLoginStatusContext} from "../context/userLoginStatusContext";
 
 const Logout = () => {
+    const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useContext(UserLoginStatusContext);
     useEffect(() => {
         localStorage.removeItem("authToken");
-        window.location = "/";
+        setIsLogin(false);
+        navigate("/login");
     });
     return (
         <div>

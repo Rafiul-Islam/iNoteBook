@@ -1,14 +1,25 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {ToastContainer} from "react-toastify";
 import Router from "./routers";
 import Navbar from "./components/navbar";
-import {ToastContainer} from "react-toastify";
+import {UserLoginStatusContext} from "./context/userLoginStatusContext";
 
 const App = () => {
+    const [isLogin, setIsLogin] = useContext(UserLoginStatusContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem("authToken")) {
+            setIsLogin(true)
+            navigate('/');
+        } else navigate('/login');
+    }, []);
     return (
         <>
             <ToastContainer theme={"colored"}/>
-            <Navbar/>
-            <div className='container mt-5'>
+            {isLogin && <Navbar/>}
+            <div className={`container ${isLogin && 'mt-5'}`}>
                 <Router/>
             </div>
         </>
