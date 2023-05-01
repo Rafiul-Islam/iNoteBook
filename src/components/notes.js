@@ -57,6 +57,11 @@ const Notes = () => {
                 />
             }
             <div className='row'>
+                {notes && notes.length === 0 &&
+                    <div className="col-12">
+                        <h3>No notes to display!</h3>
+                    </div>
+                }
                 {
                     notes && notes.map(note =>
                         <div key={note._id} className='col-md-6 col-xl-3 col-lg-4'>
