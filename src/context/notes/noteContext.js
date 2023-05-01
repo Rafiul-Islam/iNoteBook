@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
 import http from "../../services/httpRequest";
-import {showSuccessToast} from "../../services/toastServices";
+import {showErrorToast, showSuccessToast} from "../../services/toastServices";
 import swal from "sweetalert2";
 
 export const NoteContext = createContext();
@@ -18,9 +18,11 @@ export const NoteProvider = ({children}) => {
         const note = {title, description, tag}
         try {
             const response = await http.post("notes", note);
-            const allNotes = [response, ...notes];
-            setNotes(allNotes);
-            showSuccessToast("Note Added Successfully!");
+            if (response) {
+                const allNotes = [response, ...notes];
+                setNotes(allNotes);
+                showSuccessToast("Note Added Successfully!");
+            } else showErrorToast("Note Added Failed!")
         } catch (e) {
             console.error(e.message)
         }
@@ -41,7 +43,9 @@ export const NoteProvider = ({children}) => {
                     return note;
                 });
                 setNotes(updatedNotes);
-                showSuccessToast("Note Update Successfully!");
+                showSuccessToast("Note Updated Successfully!");
+            } else {
+                showErrorToast("Note Update Failed!")
             }
         } catch (e) {
             console.error(e.message)
