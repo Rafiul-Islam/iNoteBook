@@ -14,7 +14,8 @@ const getMethod = async (endPoint) => {
         const {data} = await httpService.get(`${API_BASE_URL}/${endPoint}`, {headers});
         return data;
     } catch (error) {
-        showErrorToast(error.response.message);
+        error.response.data.errors && showErrorToast(error.response.data.errors);
+        error.response.data.errors[0].msg && showErrorToast(error.response.data.errors[0].msg);
         return null;
     }
 }
@@ -24,7 +25,8 @@ const postMethod = async (endPoint, obj) => {
         const {data} = await httpService.post(`${API_BASE_URL}/${endPoint}`, obj, {headers});
         return data;
     } catch (error) {
-        showErrorToast(error.response.message);
+        error.response.data.errors && showErrorToast(error.response.data.errors);
+        error.response.data.errors[0].msg && showErrorToast(error.response.data.errors[0].msg);
         return null;
     }
 }
@@ -34,7 +36,8 @@ const putMethod = async (endPoint, obj) => {
         const {data} = await httpService.put(`${API_BASE_URL}/${endPoint}`, obj, {headers});
         return data;
     } catch (error) {
-        showErrorToast("Note Update Failed!");
+        error.response.data.errors && showErrorToast(error.response.data.errors);
+        error.response.data.errors[0].msg && showErrorToast(error.response.data.errors[0].msg);
         return null;
     }
 }
@@ -43,7 +46,18 @@ const deleteMethod = async (endPoint, id) => {
     try {
         await httpService.delete(`${API_BASE_URL}/${endPoint}/${id}`, {headers});
     } catch (error) {
-        showErrorToast(error.response.message);
+        error.response.data.errors && showErrorToast(error.response.data.errors);
+    }
+}
+
+const loginMethod = async (endPoint, credential) => {
+    try {
+        const {data} = await httpService.post(`${API_BASE_URL}/${endPoint}`, credential);
+        return data;
+    } catch (error) {
+        error.response.data.errors && showErrorToast(error.response.data.errors);
+        error.response.data.errors[0].msg && showErrorToast(error.response.data.errors[0].msg);
+        return null;
     }
 }
 
@@ -51,5 +65,6 @@ export default {
     get: getMethod,
     post: postMethod,
     put: putMethod,
-    delete: deleteMethod
+    delete: deleteMethod,
+    login: loginMethod
 };
