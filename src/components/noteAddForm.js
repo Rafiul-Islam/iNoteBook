@@ -36,6 +36,8 @@ const NoteAddForm = () => {
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         placeholder=""
+                        minLength={3}
+                        required
                         name='title'
                         value={note.title}
                         onChange={handleChange}
@@ -48,6 +50,8 @@ const NoteAddForm = () => {
                         className="form-control"
                         id="exampleInputPassword1"
                         placeholder=""
+                        minLength={3}
+                        required
                         name='description'
                         value={note.description}
                         onChange={handleChange}
@@ -61,6 +65,9 @@ const NoteAddForm = () => {
                         id="exampleInputPassword1"
                         placeholder=""
                         name='tag'
+                        minLength={3}
+                        maxLength={10}
+                        required
                         value={note.tag}
                         onChange={handleChange}
                     />

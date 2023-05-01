@@ -20,6 +20,8 @@ const NoteUpdateModal = ({note, modalRef, onSubmit, onInputChange}) => {
                                     name='title'
                                     value={note.title}
                                     onChange={onInputChange}
+                                    minLength={3}
+                                    required
                                 />
                             </div>
                             <div className="mb-3">
@@ -30,6 +32,8 @@ const NoteUpdateModal = ({note, modalRef, onSubmit, onInputChange}) => {
                                     name='description'
                                     value={note.description}
                                     onChange={onInputChange}
+                                    minLength={3}
+                                    required
                                 />
                             </div>
                             <div className="mb-3">
@@ -40,6 +44,8 @@ const NoteUpdateModal = ({note, modalRef, onSubmit, onInputChange}) => {
                                     name='tag'
                                     value={note.tag}
                                     onChange={onInputChange}
+                                    minLength={3}
+                                    required
                                 />
                             </div>
                             <div className='d-flex justify-content-end'>
