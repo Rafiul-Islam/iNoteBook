@@ -1,13 +1,12 @@
 import React, {useContext, useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import notebookImage from "../assets/images/notebook.png";
 import http from "../services/httpRequest";
-import '../assets/css/login.css';
 import {UserLoginStatusContext} from "../context/userLoginStatusContext";
+import '../assets/css/login.css';
 
 const Login = () => {
     const [credential, setCredential] = useState(null);
-    const navigate = useNavigate();
     const [isLogin, setIsLogin] = useContext(UserLoginStatusContext);
 
     const handleChange = (e) => {
@@ -26,7 +25,7 @@ const Login = () => {
             localStorage.setItem("authToken", authToken);
             setIsLogin(true);
             setCredential(null);
-            navigate("/")
+            window.location = "/";
         }
     }
     return (

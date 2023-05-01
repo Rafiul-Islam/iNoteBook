@@ -2,7 +2,7 @@ import httpService from "../services/httpServices";
 import {showErrorToast} from "./toastServices";
 import API_BASE_URL from '../config';
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzNjIyZmRjYTdiZjdhNmIwYzg2NjJkIn0sImlhdCI6MTY4Mjg2ODMzOX0.cpKEMx7QY5HZNzJ-XKiqdw083Y_OvxbqvCXMi2MfrMM";
+const token = localStorage.getItem("authToken");
 
 const headers = {
     'auth-token': token,
